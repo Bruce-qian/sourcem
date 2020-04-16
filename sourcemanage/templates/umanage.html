@@ -1,0 +1,76 @@
+{% extends 'base2.html' %}
+{% load staticfiles %}
+{% block title %}用户管理{% endblock %}
+{% block css %}
+<!--<link href="{% static 'css/signin.css' %}" rel="stylesheet"/>-->
+<link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet/">
+<link href="{% static 'css/theme.css' %}" rel="stylesheet/">
+<link href="{% static 'css/dashboard.css' %}" rel="stylesheet">
+{% endblock %}
+{% block content %}
+    <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+          <h1 class="page-header">用户管理</h1>
+            <div>
+            <form class="navbar-form navbar-left" action="{% url 'source_manager:umanage_page' %}" method="post">
+
+                {% csrf_token %}
+                <label>输入账号：</label>
+             <input type="text" id="acc" class="form-control"  name="acc" maxlength="6" required autofocus>
+                <input type="submit"  class="btn btn-success" value="查找">
+            </form>
+            </div>
+           <a href="{% url 'source_manager:umanageadd_page' %}" class="pull-right">添加</a>
+
+             {% if message %}
+            <div class="alert alert-warning">{{ message }}</div>
+                {% endif %}
+            <br/>
+            <br/>
+            <br/>
+
+          <div class="table-responsive">
+            <table class="table table-striped">
+            {% if users %}
+              <thead>
+                <tr>
+                    <th>账号</th>
+                  <th>姓名</th>
+                  <th>性别</th>
+                  <th>职位</th>
+                    <th>部门</th>
+                    <th>操作</th>
+                    <th>操作</th>
+                </tr>
+              </thead>
+              <tbody>
+
+              {% for u in users %}
+                <tr>
+                  <td>{{ u.acc }}</td>
+                  <td>{{ u.na }}</td>
+                    <td>{% if u.sex == 1 %}男{% else %}女{% endif %}</td>
+                    <td>{{ u.offer }}</td>
+                    <td>{{ u.part }}</td>
+                  <form action="{% url 'source_manager:umanagechange_page' %}" method="post">
+                    {% csrf_token %}
+                        <input type="hidden" name="acc" value="{{ u.acc }}">
+                        <input type="hidden" name="flag" value="0">
+                        <td><input type="submit" name="sub1" value="修改" class="btn btn-xs btn-success"></td>
+                    </form>
+                      <form action="{% url 'source_manager:userdel_page' %}" method="post">
+                    {% csrf_token %}
+                        <input type="hidden" name="acc" value="{{ u.acc }}">
+                        <input type="hidden" name="flag" value="0">
+                       <td><input type="submit" name="sub1" value="删除" class="btn btn-xs btn-success"></td>
+                    </form>
+            {% endfor %}
+            {% else %}
+              <tr><td>无</td></tr>
+              {% endif %}
+
+              </tbody>
+            </table>
+          </div>
+          </div>
+
+{% endblock %}

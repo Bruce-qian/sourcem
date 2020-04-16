@@ -1,0 +1,73 @@
+{% extends 'base2.html' %}
+{% load staticfiles %}
+{% block title %}车辆申请审核{% endblock %}
+{% block css %}
+
+<!--<link href="{% static 'css/signin.css' %}" rel="stylesheet"/>-->
+<link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet/">
+<link href="{% static 'css/theme.css' %}" rel="stylesheet/">
+<link href="{% static 'css/dashboard.css' %}" rel="stylesheet">
+{% endblock %}
+{% block content %}
+
+     <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+          <h1 class="page-header">车辆申请审核</h1>
+             {% if message %}
+            <div class="alert alert-warning">{{ message }}</div>
+                {% endif %}
+     {% if message2 %}
+            <div class="alert alert-warning">{{ message2 }}</div>
+                {% endif %}
+            <br/>
+            <br/>
+            <br/>
+
+          <div class="table-responsive">
+            <table class="table table-striped">
+            {% if carorders %}
+              <thead>
+                <tr>
+                    <th>记录编号</th>
+                  <th>申请用户</th>
+                  <th>车辆编号</th>
+                  <th>开始时间</th>
+                    <th>结束时间</th>
+                    <th>用途</th>
+                  <th>操作</th>
+                  <th>操作</th>
+                </tr>
+              </thead>
+              <tbody>
+
+              {% for c in carorders %}
+                <tr>
+                  <td>{{ c.id }}</td>
+                  <td>{{ c.acc.na }}</td>
+                  <td>{{ c.cid.cid }}</td>
+                    <td>{{ c.stime }}</td>
+                    <td>{{ c.etime }}</td>
+                    <td>{{ c.foor }}</td>
+                  <form action="{% url 'source_manager:carordere_page' %}" method="post">
+                    {% csrf_token %}
+                        <input type="hidden" name="orderid" value="{{ c.id }}">
+                        <input type="hidden" name="chose" value="1">
+                        <td><input type="submit" name="sub1" value="通过" class="btn btn-xs btn-success"></td>
+                    </form>
+                      <form action="{% url 'source_manager:carordere_page' %}" method="post">
+                    {% csrf_token %}
+                        <input type="hidden" name="orderid" value="{{ c.id }}">
+                        <input type="hidden" name="chose" value="3">
+                       <td><input type="submit" name="sub1" value="拒绝" class="btn btn-xs btn-success"></td>
+                    </form>
+                </tr>
+
+            {% endfor %}
+            {% else %}
+              <tr><td>没有申请要审核</td></tr>
+              {% endif %}
+
+              </tbody>
+            </table>
+          </div>
+          </div>
+{% endblock %}

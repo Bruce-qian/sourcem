@@ -1,0 +1,70 @@
+{% extends 'base2.html' %}
+{% load staticfiles %}
+{% block title %}会议室列表{% endblock %}
+{% block css %}
+
+<!--<link href="{% static 'css/signin.css' %}" rel="stylesheet"/>-->
+<link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet/">
+<link href="{% static 'css/theme.css' %}" rel="stylesheet/">
+<link href="{% static 'css/dashboard.css' %}" rel="stylesheet">
+{% endblock %}
+{% block content %}
+<div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+    <h1 class="page-header">会议室资源列表</h1>
+
+    <a class="pull-right" href="{% url 'source_manager:metget_page' %}">添加</a>
+
+    {% if message %}
+    <div class="alert alert-warning">{{ message }}</div>
+    {% endif %}
+    <br/>
+    <br/>
+    <br/>
+
+    <div class="table-responsive">
+        <table class="table table-striped">
+        {% if metrs %}
+        <thead>
+        <tr>
+            <th>会议室编号</th>
+          <th>容量</th>
+            <th>状态</th>
+            <th>创建时间</th>
+            <th>位置</th>
+          <th>操作</th>
+            <th>操作</th>
+
+        </tr>
+        </thead>
+        <tbody>
+
+        {% for m in metrs %}
+        <tr>
+            <td>{{ m.mid }}</td>
+            <td>{{ m.size }}</td>
+            <td>{{ m.sta }}</td>
+            <td>{{ m.tim }}</td>
+            <td>{{ m.lot }}</td>
+            <form action="{% url 'source_manager:metcheck_page' %}" method="post">
+            {% csrf_token %}
+                <input type="hidden" name="mid" value="{{ m.mid }}">
+                <input type="hidden" name="chose" value="1">
+                <td><input type="submit" name="sub1" value="修改" class="btn btn-xs btn-success"></td>
+            </form>
+            <form action="{% url 'source_manager:metdel_page' %}" method="post">
+            {% csrf_token %}
+                <input type="hidden" name="mid" value="{{ m.mid }}">
+                <input type="hidden" name="flag" value="0">
+               <td><input type="submit" name="sub1" value="删除" class="btn btn-xs btn-success"></td>
+            </form>
+        {% endfor %}
+        {% else %}
+        <tr><td>无</td></tr>
+        {% endif %}
+
+        </tbody>
+        </table>
+    </div>
+</div>
+
+{% endblock %}

@@ -1,0 +1,71 @@
+{% extends 'base2.html' %}
+{% load staticfiles %}
+{% block title %}会议室申请审核{% endblock %}
+{% block css %}
+
+<!--<link href="{% static 'css/signin.css' %}" rel="stylesheet"/>-->
+<link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet/">
+<link href="{% static 'css/theme.css' %}" rel="stylesheet/">
+<link href="{% static 'css/dashboard.css' %}" rel="stylesheet">
+{% endblock %}
+{% block content %}
+    <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+          <h1 class="page-header">会议室申请审核</h1>
+             {% if message %}
+            <div class="alert alert-warning">{{ message }}</div>
+                {% endif %}
+     {% if message2 %}
+            <div class="alert alert-warning">{{ message2 }}</div>
+                {% endif %}
+            <br/>
+            <br/>
+            <br/>
+
+          <div class="table-responsive">
+            <table class="table table-striped">
+            {% if metorders %}
+              <thead>
+                <tr>
+                    <th>记录编号</th>
+                  <th>申请用户</th>
+                  <th>会议室编号</th>
+                  <th>开始时间</th>
+                    <th>结束时间</th>
+                    <th>用途</th>
+                  <th>操作</th>
+                  <th>操作</th>
+
+                </tr>
+              </thead>
+              <tbody>
+
+              {% for m in metorders %}
+                <tr>
+                  <td>{{ m.id }}</td>
+                  <td>{{ m.acc.na }}</td>
+                  <td>{{ m.mid }}</td>
+                    <td>{{ m.stime }}</td>
+                    <td>{{ m.etime }}</td>
+                    <td>{{ m.foor }}</td>
+                  <form action="{% url 'source_manager:metordere_page' %}" method="post">
+                    {% csrf_token %}
+                        <input type="hidden" name="orderid" value="{{ m.id }}">
+                       <input type="hidden" name="chose" value="1">
+                        <td><input type="submit" name="sub1" value="通过" class="btn btn-xs btn-success"></td>
+                    </form>
+                      <form action="{% url 'source_manager:metordere_page' %}" method="post">
+                    {% csrf_token %}
+                       <input type="hidden" name="orderid" value="{{ m.id }}">
+                        <input type="hidden" name="chose" value="3">
+                       <td><input type="submit" name="sub1" value="拒绝" class="btn btn-xs btn-success"></td>
+                    </form>
+            {% endfor %}
+            {% else %}
+              <tr><td>没有申请要审核</td></tr>
+              {% endif %}
+
+              </tbody>
+            </table>
+          </div>
+          </div>
+{% endblock %}

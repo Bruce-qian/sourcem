@@ -1,0 +1,69 @@
+{% extends 'base2.html' %}
+{% load staticfiles %}
+{% block title %}车辆列表{% endblock %}
+{% block css %}
+<!--<link href="{% static 'css/signin.css' %}" rel="stylesheet"/>-->
+<link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet/">
+<link href="{% static 'css/theme.css' %}" rel="stylesheet/">
+<link href="{% static 'css/dashboard.css' %}" rel="stylesheet">
+{% endblock %}
+{% block content %}
+    <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+          <h1 class="page-header">车辆资源列表</h1>
+
+           <a href="{% url 'source_manager:carget_page' %}" class="pull-right">添加</a>
+
+             {% if message %}
+            <div class="alert alert-warning">{{ message }}</div>
+                {% endif %}
+            <br/>
+            <br/>
+            <br/>
+
+          <div class="table-responsive">
+            <table class="table table-striped">
+            {% if cars %}
+              <thead>
+                <tr>
+                    <th>车辆编号</th>
+                  <th>车牌号</th>
+                  <th>容量</th>
+                  <th>状态</th>
+                    <th>创建时间</th>
+                  <th>操作</th>
+                    <th>操作</th>
+
+                </tr>
+              </thead>
+              <tbody>
+
+              {% for c in cars %}
+                <tr>
+                  <td>{{ c.cid }}</td>
+                  <td>{{ c.cflag }}</td>
+                    <td>{{ c.size }}</td>
+                    <td>{{ c.sta }}</td>
+                    <td>{{ c.tim }}</td>
+                  <form action="{% url 'source_manager:carcheck_page' %}" method="post">
+                    {% csrf_token %}
+                        <input type="hidden" name="cid" value="{{ c.cid }}">
+                        <input type="hidden" name="chose" value="1">
+                        <td><input type="submit" name="sub1" value="修改" class="btn btn-xs btn-success"></td>
+                    </form>
+                      <form action="{% url 'source_manager:cardel_page' %}" method="post">
+                    {% csrf_token %}
+                        <input type="hidden" name="cid" value="{{ c.cid }}">
+                        <input type="hidden" name="flag" value="0">
+                       <td><input type="submit" name="sub1" value="删除" class="btn btn-xs btn-success"></td>
+                    </form>
+            {% endfor %}
+            {% else %}
+              <tr><td>无</td></tr>
+              {% endif %}
+
+              </tbody>
+            </table>
+          </div>
+          </div>
+
+{% endblock %}

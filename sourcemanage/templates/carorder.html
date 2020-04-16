@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>车辆预约</title>
+</head>
+<body>
+这是一个简单的测试页面
+<from action="{% url 'source_manager:carorder_page' %}" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div>
+        <label for="cid">车辆编号：</label>
+        <input type="text" id="cid" name="cid">
+    </div>
+    <div>
+        <label for="stime">开始时间：</label>
+        <input type="text" id="stime" name="stime">
+    </div>
+    <div>
+        <label for="etime">结束时间：</label>
+        <input type="text" id="etime" name="etime">
+    </div>
+    <div>
+        <label for="foor">用途：</label>
+        <input type="text" id="foor" name="foor">
+    </div>
+</from>
+</body>
+</html>

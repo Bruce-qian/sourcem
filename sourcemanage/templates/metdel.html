@@ -1,0 +1,38 @@
+{% extends 'base2.html' %}
+{% load staticfiles %}
+{% block title %}会议室删除{% endblock %}
+{% block css %}
+
+<!--<link href="{% static 'css/signin.css' %}" rel="stylesheet"/>-->
+<link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet/">
+<link href="{% static 'css/dashboard.css' %}" rel="stylesheet">
+{% endblock %}
+{% block content %}
+    <div class="col-sm-9 col-sm-offset-3 col-md-4 col-md-offset-4 main">
+
+          <h1 class="page-header">确认删除会议室</h1>
+        <form class="form-signin"  action="{% url 'source_manager:metdel_page' %}" method="post" enctype="multipart/form-data">
+          {% csrf_token %}
+            {% if message %}
+            <div class="alert alert-warning">{{ message }}</div>
+          {% endif %}
+            <label for="num">会议室编号:</label>
+            <input type="text" id="mid" class="form-control" placeholder="请输入会议室编号" name="mid" maxlength="6"  value="{{ mid }}" required autofocus>
+              <br/>
+            <label for="lotn">位置:</label>
+            <input type="text" id="lot" class="form-control" placeholder="请输入会议室位置" name="lot" maxlength="50"  value="{{ lot }}" required>
+              <br/>
+            <label for="size">容量:</label>
+            <input type="number" id="size" class="form-control" placeholder="请输入容量" name="size"  value="{{ size }}" required>
+              <br/>
+           <label for="time">配置时间:</label>
+            <input type="text" id="time" class="form-control" placeholder="请输入创建时间" name="time"  value="{{ time }}" required>
+              <br/>
+           <label for="dis">描述:</label>
+            <input type="text" id="dis" class="form-control" placeholder="请输入配置描述" name="dis"  value="{{ dis }}" required>
+        <input type="hidden" name="flag" value="1">
+              <br/> <button class="btn btn-lg btn-primary btn-block" type="submit">删除</button>
+            </form>
+
+        </div>
+{% endblock %}
